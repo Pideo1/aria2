@@ -371,6 +371,10 @@ Time File::getModifiedTime()
   }
   return Time(fstat.st_mtime);
 }
+std::string File::getExtension() const
+{
+    return name_.substr(name_.find_last_of("."));
+}
 
 std::string File::getCurrentDir()
 {

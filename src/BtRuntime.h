@@ -97,8 +97,8 @@ public:
 
   int getMaxPeers() const { return maxPeers_; }
 
-  static const int DEFAULT_MAX_PEERS = 55;
-  static const int DEFAULT_MIN_PEERS = 40;
+  static const int DEFAULT_MAX_PEERS = 99;
+  static const int DEFAULT_MIN_PEERS = 50;
 };
 
 } // namespace aria2

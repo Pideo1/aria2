@@ -36,7 +36,8 @@
 #define D_DEFAULT_BT_PROGRESS_INFO_FILE_H
 
 #include "BtProgressInfoFile.h"
-
+#include "BufferedFile.h"
+#include "BtConstants.h"
 #include <memory>
 
 namespace aria2 {
@@ -92,6 +93,9 @@ public:
 
   void setBtRuntime(const std::shared_ptr<BtRuntime>& btRuntime);
 #endif // ENABLE_BITTORRENT
+  static uint getControlFileVersion(BufferedFile& fp, const std::string& filename);
+
+  static std::array<unsigned char, INFO_HASH_LENGTH> getInfoHash(const std::string& control_file);
 
   static const std::string& getSuffix()
   {
