@@ -48,8 +48,6 @@ private:
   z_stream* strm_;
 
   bool finished_;
-  
-  bool rawMode_;
 
   size_t bytesProcessed_;
 

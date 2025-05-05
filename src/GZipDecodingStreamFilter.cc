@@ -48,7 +48,6 @@ GZipDecodingStreamFilter::GZipDecodingStreamFilter(
     : StreamFilter{std::move(delegate)},
       strm_{nullptr},
       finished_{false},
-      rawMode_{false},
       bytesProcessed_{0}
 {
 }
@@ -67,8 +66,7 @@ void GZipDecodingStreamFilter::init()
   strm_->next_in = Z_NULL;
 
   // initialize z_stream with gzip/zlib format auto detection enabled.
-  // negative windowBits enables raw mode support.
-  if (Z_OK != inflateInit2(strm_, rawMode_ ? -15 : 47)) {
+  if (Z_OK != inflateInit2(strm_, 47)) {
     throw DL_ABORT_EX("Initializing z_stream failed.");
   }
 }
@@ -107,12 +105,6 @@ GZipDecodingStreamFilter::transform(const std::shared_ptr<BinaryStream>& out,
       finished_ = true;
     }
     else if (ret != Z_OK && ret != Z_BUF_ERROR) {
-      if (!rawMode_) {
-        // reset in raw mode
-        rawMode_ = true;
-        init();
-        return transform(out, segment, inbuf, inlen);
-      }
       throw DL_ABORT_EX(fmt("libz::inflate() failed. cause:%s", strm_->msg));
     }
 
